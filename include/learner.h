@@ -5,8 +5,9 @@
 #ifndef LEARNER_H
 #define LEARNER_H
 
-#include "teacher.h"
+#include "common.h"
 #include "observation_table.h"
+#include "teacher.h"
 
 class Alphabet;
 
@@ -20,8 +21,10 @@ private:
 	void init();
 	void outputDfa();
 	
-	void resolveNotClosed();
-	void resolveNotConsistent();
+	void resolveNotClosed(Teacher &teacher);
+	void resolveNotConsistent(Teacher &teacher);
+	
+	void extendT(Teacher &teacher);
 	
 private:
 	std::unique_ptr<Alphabet> alphabet;

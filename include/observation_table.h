@@ -11,6 +11,10 @@
 #include <vector>
 
 #include "alphabet.h"
+#include "common.h"
+
+typedef std::map<std::pair<String, String>, bool>::iterator TableIterator;
+typedef std::pair<String, String> TablePair;
 
 class Dfa;
 
@@ -19,22 +23,35 @@ public:
 	bool isClosed(Alphabet &alphabet);
 	bool isConsistent(Alphabet &alphabet);
 	
-	void addStringToS(std::string s);
-	void addStringToE(std::string e);
+	void resolveNotClosed(Alphabet &alphabet);
+	void resolveNotConsistent(Alphabet &alphabet);
 	
-	void addEntry(std::string s, std::string e, bool isMember);
+	void addStringToS(String s);
+	void addStringToE(String e);
 	
-	std::unique_ptr<Dfa> getDfaRepresentation();
+	const std::set<String>& getS(){return prefixClosed;};
+	const std::set<String>& getE(){return suffixClosed;};
 	
-	std::string toString();
+	void addEntry(String s, String e, bool isMember);
+	bool isInTable(String s, String e);
+	bool isInTable(String s);
+	bool isMember(String s, String e);
+	bool isMember(String s);
+	
+	std::unique_ptr<Dfa> getDfaRepresentation(Alphabet &alphabet);
+	
+	String toStringTable();
+	String toStringSets();
+	
+	String row(String s);
+	bool areRowsEqual(String string1, String string2);
 	
 private:
 	std::set<std::string> prefixClosed;
 	std::set<std::string> suffixClosed;
 	
-	std::map<std::pair<std::string, std::string>, bool> table;
-	
-	bool areRowsEqual(std::string string1, std::string string2);
+	std::map<TablePair, bool> table;
+	std::map<String, bool> membershipMap;
 };
 
 #endif

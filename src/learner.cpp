@@ -2,6 +2,7 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
+#include <stdlib.h>
 #include "learner.h"
 #include "common.h"
 
@@ -33,13 +34,13 @@ void Learner::start(Teacher &teacher) {
 			observeTable.addEntry(EMPTY_STRING, EMPTY_STRING, teacher.askMembership(EMPTY_STRING));
 		}
 		else {
-			std::string symbolString(1, symbol);
+			String symbolString(1, symbol);
 			observeTable.addEntry(symbolString, EMPTY_STRING, teacher.askMembership(symbolString));
 		}
 	}
 	
 	// Construct the initial observation table (S, E, T)
-	std::cout << observeTable.toString() << std::endl;;
+	std::cout << observeTable.toStringTable() << std::endl;
 	
 	bool conjectureIsIncorrect = true;
 	
@@ -48,26 +49,37 @@ void Learner::start(Teacher &teacher) {
 		while (!observeTable.isClosed(*alphabet) || !observeTable.isConsistent(*alphabet)) {
 			
 			if (!observeTable.isConsistent(*alphabet)) {
-				resolveNotConsistent();
+				std::cout << "Table is not consistent..." << std::endl;
+				resolveNotConsistent(teacher);
 			}
 			if (!observeTable.isClosed(*alphabet)) {
-				resolveNotClosed();
+				std::cout << "Table is not closed..." << std::endl;
+				resolveNotClosed(teacher);
 			}
-			break;
 		}
+		std::cout << observeTable.toStringSets() << std::endl;
+		std::cout << observeTable.toStringTable() << std::endl;
+		
+		outputDfa();
 		
 		// The learner was correct
-		if (teacher.makeConjecture(observeTable.getDfaRepresentation())) {
+		if (teacher.makeConjecture(observeTable.getDfaRepresentation(*alphabet))) {
 			conjectureIsIncorrect = false;
 		} // The learner was incorrect
 		else {
-			std::string t = teacher.getCounterExample();
+			String t = teacher.getCounterExample();
 			
 			// Add t and all its prefixes to S
 			for (int length = t.length(); length > 0; length--) {
-				observeTable.addEntry(t.substr(0, length), EMPTY_STRING, teacher.askMembership(t.substr(0, length)));
+				observeTable.addStringToS(t.substr(0, length));
 			}
+			
+			// Extend T to (S u S . A) . E using membership queries
+			extendT(teacher);
+			
 		}
+		
+		std::cout << observeTable.toStringSets() << std::endl;
 	}
 	
 	outputDfa();
@@ -85,19 +97,70 @@ void Learner::init() {
 // void Learner::outputDfa()
 //------------------------------------------------------------------------------
 void Learner::outputDfa() {
-	
+	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
+	String dotFile = dfa->toGraphVizString();
+	//system("echo " + dotFile + " | dot -Tsvg -o tmp.svg");
+	system("touch tmp.dot");
 }
 
 //==============================================================================
 // void Learner::resolveNotClosed()
 //------------------------------------------------------------------------------
-void Learner::resolveNotClosed() {
+void Learner::resolveNotClosed(Teacher &teacher) {
+	std::cout << "Resolving...\n";
+
+	observeTable.resolveNotClosed(*alphabet);
 	
+	// Extend T to (S u S . A) . E using membership queries
+	extendT(teacher);
+	
+	std::cout << "...Done\n\n";
 }
 
 //==============================================================================
 // void Learner::resolveNotConsistent()
 //------------------------------------------------------------------------------
-void Learner::resolveNotConsistent() {
+void Learner::resolveNotConsistent(Teacher &teacher) {
+	std::cout << "...resolving\n";
 	
+	observeTable.resolveNotConsistent(*alphabet);
+	
+	// Extend T to (S u S . A) . E using membership queries
+	extendT(teacher);
+	
+	std::cout << "...Done\n\n";
+}
+
+//==============================================================================
+// void Learner::extendT()
+//------------------------------------------------------------------------------
+void Learner::extendT(Teacher& teacher) {
+	
+	const std::set<String>& setS = observeTable.getS();
+	const std::set<String>& setE = observeTable.getE();
+	
+	// Ask S . E
+	for (String s : setS) {
+		for (String e : setE) {
+			String query = s + e;
+			
+			if (!observeTable.isInTable(s, e)) {
+				observeTable.addEntry(s, e, teacher.askMembership(query));
+			}
+		}
+	}
+	
+	// Ask S . A . E
+	for (String s : setS) {
+		for (char a : alphabet->getSymbols()) {
+			for (String e : setE) {
+
+				String query = s + a;
+
+				if (!observeTable.isInTable(query, e)) {
+					observeTable.addEntry(query, e, teacher.askMembership(query + e));
+				}
+			}
+		}
+	}
 }

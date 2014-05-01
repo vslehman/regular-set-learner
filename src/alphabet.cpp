@@ -12,17 +12,19 @@ void Alphabet::addSymbol(char symbol) {
 }
 
 //==============================================================================
-// void Alphabet::addSymbol()
+// String Alphabet::toString()
 //------------------------------------------------------------------------------
-std::string Alphabet::toString() {
-	std::string string = "A = {";
+String Alphabet::toString() {
+	String string = "A = {";
 	
 	for (char symbol : symbols) {
-		string.append(1, symbol);
+		string += symbol;
 		string += ", ";
 	}
 	
+	// Remove last comma
 	string.erase(string.length() - 2);
+	
 	string += "}";
 	
 	return string;

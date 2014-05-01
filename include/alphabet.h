@@ -8,12 +8,14 @@
 #include <set>
 #include <string>
 
+#include "common.h"
+
 class Alphabet {
 public:
 	void addSymbol(char sybmol);
 	const std::set<char> &getSymbols(){return symbols;}
 	
-	std::string toString();
+	String toString();
 	
 private:
 	std::set<char> symbols;

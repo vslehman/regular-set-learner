@@ -5,18 +5,21 @@
 #ifndef CONSOLE_TEACHER_H
 #define CONSOLE_TEACHER_H
 
+#include "common.h"
 #include "teacher.h"
 
 class ConsoleTeacher : public Teacher {
 public:
-	bool askMembership(std::string query);
+	bool askMembership(String query);
 	bool makeConjecture(std::unique_ptr<Dfa> dfa);
 	
 	std::unique_ptr<Alphabet> askAlphabet();
-	std::string getCounterExample();
+	String getCounterExample();
 
 private:
-	void printMembershipPrompt(std::string query);
+	void printMembershipPrompt(String query);
+	bool isYes(String s);
+	bool isNo(String s);
 };
 
 #endif

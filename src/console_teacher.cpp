@@ -9,9 +9,9 @@
 //==============================================================================
 // bool ConsoleTeacher::askMembership()
 //------------------------------------------------------------------------------
-bool ConsoleTeacher::askMembership(std::string query) {
+bool ConsoleTeacher::askMembership(String query) {
 	
-	std::string input = "NULL";
+	String input = "NULL";
 	
 	while (true) {
 		
@@ -19,27 +19,30 @@ bool ConsoleTeacher::askMembership(std::string query) {
 		
 		std::cin >> input;
 		
-		if (input == "1") {
+		if (isYes(input)) {
+			std::cout << std::endl;
 			return true;
 		}
-		else if (input == "0") {
+		else if (isNo(input)) {
+			std::cout << std::endl;
 			return false;
 		}
-		
-		std::cout << "Error on input\n";
-		input = "NULL";
+		else {
+			std::cout << "Error on input\n";
+			input = "NULL";
+		}
 	}
 }
 
 //==============================================================================
-// std::unique_ptr<Alphabet> ConsoleTeacher::askMembership()
+// std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet()
 //------------------------------------------------------------------------------
 std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 	std::cout << "Please enter each symbol in the alphabet followed by the return key\n";
 	std::cout << "Type 'end' followed by the return key to finalize the alphabet\n";
 	
 	std::unique_ptr<Alphabet> alphabet(new Alphabet);
-	std::string input = "NULL";
+	String input = "NULL";
 	
 	while (input != "end") {
 		std::cout << "> ";
@@ -56,7 +59,7 @@ std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 		}
 	}
 	
-	std::cout << alphabet->toString() << std::endl;
+	std::cout << "\n" + alphabet->toString() + "\n" << std::endl;
 	
 	return alphabet;
 }
@@ -65,17 +68,40 @@ std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 // bool ConsoleTeacher::makeConjecture()
 //------------------------------------------------------------------------------
 bool ConsoleTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
+	std::cout << dfa->toString() << std::endl;
+	
+	std::cout << "Is this a correct acceptor for the language?" << std::endl;
+	std::cout << "(Y)es or (N)o?\n";
+	
+	String input = "NULL";
+	
+	while (input == "NULL") {
+		std::cout << "> ";
+		std::cin >> input;
+		
+		if (isYes(input)) {
+			return true;
+		}
+		else if (isNo(input)) {
+			return false;
+		}
+		else {
+			std::cout << "Error on input\n";
+			input = "NULL";
+		}
+	}
+	
 	return false;
 }
 
 //==============================================================================
-// std::string ConsoleTeacher::getCounterExample()
+// String ConsoleTeacher::getCounterExample()
 //------------------------------------------------------------------------------
-std::string ConsoleTeacher::getCounterExample() {
+String ConsoleTeacher::getCounterExample() {
 	std::cout << "Please provide a counter-example:";
 	std::cout << "> ";
 	
-	std::string input;
+	String input;
 	std::cin >> input;
 	
 	return input;
@@ -84,15 +110,38 @@ std::string ConsoleTeacher::getCounterExample() {
 //==============================================================================
 // void ConsoleTeacher::printMembershipPrompt()
 //------------------------------------------------------------------------------
-void ConsoleTeacher::printMembershipPrompt(std::string query) {
+void ConsoleTeacher::printMembershipPrompt(String query) {
 
 	// Print unicode epsilon
 	if (query == EMPTY_STRING) {
 		query = EPSILON_STRING;
 	}
 	
-	std::cout << "Is " + query + " a member of the unknown regular set?\n";
-	std::cout << "0.) No\n";
-	std::cout << "1.) Yes\n";
+	std::cout << "\nIs " + query + " a member of the unknown regular set?\n";
+	std::cout << "(Y)es or (N)o?\n";
 	std::cout << "> ";
+}
+
+//==============================================================================
+// bool ConsoleTeacher::isYes()
+//------------------------------------------------------------------------------
+bool ConsoleTeacher::isYes(String s) {
+	if (s == "Y" || s == "y" || s == "yes" || s == "1") {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+//==============================================================================
+// bool ConsoleTeacher::isNo()
+//------------------------------------------------------------------------------
+bool ConsoleTeacher::isNo(String s) {
+	if (s == "N" || s == "n" || s == "no" || s == "0") {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

@@ -105,7 +105,7 @@ bool ObservationTable::isInTable(String s, String e) {
 // bool ObservationTable::isInTable()
 //------------------------------------------------------------------------------
 bool ObservationTable::isInTable(String s) {
-	return (membershipMap.count(s) >= 1);
+	return (membershipMap.count(s) == 1);
 }
 
 //==============================================================================

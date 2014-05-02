@@ -2,6 +2,7 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
+#include <fstream>
 #include <stdlib.h>
 #include "learner.h"
 #include "common.h"
@@ -97,10 +98,20 @@ void Learner::init() {
 // void Learner::outputDfa()
 //------------------------------------------------------------------------------
 void Learner::outputDfa() {
+	
+	// Write dot file
 	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
-	String dotFile = dfa->toGraphVizString();
-	//system("echo " + dotFile + " | dot -Tsvg -o tmp.svg");
-	system("touch tmp.dot");
+	String dotFileString = dfa->toGraphVizString();
+	
+	std::ofstream outFile ("tmp/tmp.dot");
+	if (outFile.is_open())
+	{
+		outFile << dotFileString;
+		outFile.close();
+	}
+	
+	system("dot -Tpdf tmp/tmp.dot -o tmp/tmp.pdf > /dev/null 2>&1");
+	system("open tmp/tmp.pdf");
 }
 
 //==============================================================================

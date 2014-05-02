@@ -51,11 +51,11 @@ String Dfa::toGraphVizString() {
 		char symbol = transitions->first.second;
 		int nextState = transitions->second;
 		
-		deltaString += "q" + std::to_string(currentState) + " -> q" + std::to_string(nextState) +
-		               " [label=\"" + symbol + "]\n";
+		deltaString += " q" + std::to_string(currentState) + " -> q" + std::to_string(nextState) +
+		               " [label=\"" + symbol + "\"]\n";
 	}
 	
-	return header + qString + deltaString;
+	return header + qString + deltaString + "\n}";
 }
 
 

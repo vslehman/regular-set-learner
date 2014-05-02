@@ -5,6 +5,8 @@
 #ifndef CONSOLE_TEACHER_H
 #define CONSOLE_TEACHER_H
 
+#include <queue>
+
 #include "common.h"
 #include "teacher.h"
 
@@ -17,9 +19,12 @@ public:
 	String getCounterExample();
 
 private:
+	void writeDemoToFile();
 	void printMembershipPrompt(String query);
 	bool isYes(String s);
 	bool isNo(String s);
+	
+	std::queue<String> inputRecorder;
 };
 
 #endif

@@ -12,7 +12,7 @@
 
 class DemoTeacher : public Teacher {
 public:
-	DemoTeacher();
+	DemoTeacher(String filename, int playbackSpeed);
 	bool askMembership(String query);
 	bool makeConjecture(std::unique_ptr<Dfa> dfa);
 	
@@ -25,6 +25,7 @@ private:
 	bool isYes(String s);
 	bool isNo(String s);
 	std::queue<String> responses;
+	int playbackPause;
 };
 
 #endif

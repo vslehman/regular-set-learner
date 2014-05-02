@@ -12,11 +12,15 @@
 //==============================================================================
 // bool DemoTeacher::DemoTeacher()
 //------------------------------------------------------------------------------
-DemoTeacher::DemoTeacher() {
+DemoTeacher::DemoTeacher(String filename, int playbackSpeed) {
 
+	// Playback speed [0-10] slow to fast
+	// Pause in microseconds
+	playbackPause = (10 - playbackSpeed) * 500000;
+	
 	std::cout << "Loading demo file...\n";
 	String line;
-	std::ifstream inFile("demo/ab_star.txt");
+	std::ifstream inFile(filename);
 	
 	if (inFile.is_open())
 	{
@@ -180,6 +184,6 @@ bool DemoTeacher::isNo(String s) {
 String DemoTeacher::getResponse() {
 	String temp = responses.front();
 	responses.pop();
-	sleep(2);
+	usleep(playbackPause);
 	return temp;
 }

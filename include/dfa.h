@@ -28,8 +28,6 @@ private:
 	int numStates;
 	std::vector<int> acceptStates;
 	
-	int startState;
-	
 	std::map<std::pair<int, char>, int> transitionTable;
 	std::map<String, std::pair<int, bool>> states;
 };

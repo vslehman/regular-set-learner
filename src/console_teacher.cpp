@@ -3,6 +3,7 @@
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
 #include "console_teacher.h"
+#include <fstream>
 #include <iostream>
 #include "common.h"
 
@@ -20,10 +21,12 @@ bool ConsoleTeacher::askMembership(String query) {
 		std::cin >> input;
 		
 		if (isYes(input)) {
+			inputRecorder.push(input);
 			std::cout << std::endl;
 			return true;
 		}
 		else if (isNo(input)) {
+			inputRecorder.push(input);
 			std::cout << std::endl;
 			return false;
 		}
@@ -49,12 +52,14 @@ std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 		std::cin >> input;
 		
 		if (input == "end") {
+			inputRecorder.push(input);
 			break;
 		}
 		else if (input.length() > 1) {
 			std::cout << "Please enter only one symbol at a time.\n";
 		}
 		else {
+			inputRecorder.push(input);
 			alphabet->addSymbol(input.at(0));
 		}
 	}
@@ -80,6 +85,7 @@ bool ConsoleTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
 		std::cin >> input;
 		
 		if (isYes(input)) {
+			writeDemoToFile();
 			return true;
 		}
 		else if (isNo(input)) {
@@ -103,6 +109,8 @@ String ConsoleTeacher::getCounterExample() {
 	
 	String input;
 	std::cin >> input;
+	
+	inputRecorder.push(input);
 	
 	return input;
 }
@@ -144,4 +152,33 @@ bool ConsoleTeacher::isNo(String s) {
 	else {
 		return false;
 	}
+}
+
+//==============================================================================
+// void ConsoleTeacher::writeDemoToFile()
+//------------------------------------------------------------------------------
+void ConsoleTeacher::writeDemoToFile() {
+	std::cout << "Save demo as:" << std::endl;
+	std::cout << "> ";
+	
+	String filename;
+	std::cin >> filename;
+	
+	// Write demo to file
+	
+	std::ofstream outFile("demo/" + filename);
+	if (outFile.is_open())
+	{
+		while (!inputRecorder.empty()) {
+			outFile << inputRecorder.front() + "\n";
+			inputRecorder.pop();
+		}
+		
+		outFile.close();
+	}
+	
+	system("dot -Tpdf tmp/tmp.dot -o tmp/tmp.pdf > /dev/null 2>&1");
+	system("open tmp/tmp.pdf");
+
+
 }

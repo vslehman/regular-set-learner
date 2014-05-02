@@ -155,7 +155,11 @@ void Learner::extendT(Teacher& teacher) {
 		for (String e : setE) {
 			String query = s + e;
 			
-			if (!observeTable.isInTable(s, e)) {
+			// Is the information already in the table?
+			if (observeTable.isInTable(query)) {
+				observeTable.addEntry(s, e, observeTable.isMember(query));
+			} // Need to ask the teacher
+			else {
 				observeTable.addEntry(s, e, teacher.askMembership(query));
 			}
 		}
@@ -167,8 +171,12 @@ void Learner::extendT(Teacher& teacher) {
 			for (String e : setE) {
 
 				String query = s + a;
-
-				if (!observeTable.isInTable(query, e)) {
+				
+				// Is the information already in the table?
+				if (observeTable.isInTable(query + e)) {
+					observeTable.addEntry(query, e, observeTable.isMember(query + e));
+				} // Need to ask the teacher
+				else {
 					observeTable.addEntry(query, e, teacher.askMembership(query + e));
 				}
 			}

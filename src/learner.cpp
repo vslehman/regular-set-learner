@@ -103,7 +103,7 @@ void Learner::outputDfa() {
 	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
 	String dotFileString = dfa->toGraphVizString();
 	
-	std::ofstream outFile ("tmp/tmp.dot");
+	std::ofstream outFile("tmp/tmp.dot");
 	if (outFile.is_open())
 	{
 		outFile << dotFileString;

@@ -30,7 +30,7 @@ void Learner::start(Teacher &teacher) {
 	makeMembershipQuery(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, teacher);
 
 	// Ask membership queries for each a in A
-	for (char symbol : alphabet->getSymbols()) {
+	for (char symbol : alphabet.getSymbols()) {
 	
 		if (symbol == EMPTY_CHAR) {
 			makeMembershipQuery(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, teacher);
@@ -48,13 +48,13 @@ void Learner::start(Teacher &teacher) {
 	
 	while (conjectureIsIncorrect) {
 		
-		while (!observeTable.isClosed(*alphabet) || !observeTable.isConsistent(*alphabet)) {
+		while (!observeTable.isClosed(alphabet) || !observeTable.isConsistent(alphabet)) {
 			
-			if (!observeTable.isConsistent(*alphabet)) {
+			if (!observeTable.isConsistent(alphabet)) {
 				std::cout << "Table is not consistent..." << std::endl;
 				resolveNotConsistent(teacher);
 			}
-			if (!observeTable.isClosed(*alphabet)) {
+			if (!observeTable.isClosed(alphabet)) {
 				std::cout << "Table is not closed..." << std::endl;
 				resolveNotClosed(teacher);
 			}
@@ -102,7 +102,7 @@ void Learner::init() {
 void Learner::outputDfa() {
 	
 	// Write dot file
-	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
+	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(alphabet);
 	String dotFileString = dfa->toGraphVizString();
 	
 	std::ofstream outFile("tmp/tmp.dot");
@@ -122,7 +122,7 @@ void Learner::outputDfa() {
 void Learner::resolveNotClosed(Teacher &teacher) {
 	std::cout << "Resolving...\n";
 
-	observeTable.resolveNotClosed(*alphabet);
+	observeTable.resolveNotClosed(alphabet);
 	
 	// Extend T to (S u S . A) . E using membership queries
 	extendT(teacher);
@@ -136,7 +136,7 @@ void Learner::resolveNotClosed(Teacher &teacher) {
 void Learner::resolveNotConsistent(Teacher &teacher) {
 	std::cout << "...resolving\n";
 	
-	observeTable.resolveNotConsistent(*alphabet);
+	observeTable.resolveNotConsistent(alphabet);
 	
 	// Extend T to (S u S . A) . E using membership queries
 	extendT(teacher);
@@ -169,7 +169,7 @@ void Learner::extendT(Teacher& teacher) {
 	
 	// Ask S . A . E
 	for (String s : setS) {
-		for (char a : alphabet->getSymbols()) {
+		for (char a : alphabet.getSymbols()) {
 			for (String e : setE) {
 
 				String query = s + a;
@@ -199,7 +199,7 @@ void Learner::askAlphabet(Teacher &teacher) {
 //------------------------------------------------------------------------------
 bool Learner::makeConjecture(Teacher &teacher) {
 	std::cout << "Is this a correct acceptor for the language?" << std::endl;
-	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
+	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(alphabet);
 	std::cout << dfa->toString() << std::endl;
 	std::cout << "(Y)es or (N)o?\n";
 	

@@ -2,29 +2,27 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef DEMO_TEACHER_HPP
-#define DEMO_TEACHER_HPP
-
-#include <queue>
+#ifndef AUTO_TEACHER_HPP
+#define AUTO_TEACHER_HPP
 
 #include "common.hpp"
+#include "dfa.hpp"
 #include "teacher.hpp"
 
-class DemoTeacher : public Teacher {
+class AutoTeacher : public Teacher {
 public:
-	DemoTeacher(String filename, int playbackSpeed);
+	AutoTeacher(String filename);
 	bool askMembership(String query);
-	bool makeConjecture(Dfa &dfa);
+	bool makeConjecture(Dfa &conjectureDfa);
 	
 	Alphabet askAlphabet();
 	String getCounterExample();
 	
 private:
-	String getResponse();
-	bool isYes(String s);
-	bool isNo(String s);
-	std::queue<String> responses;
-	int playbackPause;
+	Alphabet alphabet;
+	String dfaFile;
+	Dfa unknownSetDfa;
+	Dfa lastSymmetricDifferenceDfa;
 };
 
 #endif

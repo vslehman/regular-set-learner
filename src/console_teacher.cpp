@@ -39,9 +39,9 @@ bool ConsoleTeacher::askMembership(String query) {
 //==============================================================================
 // std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet()
 //------------------------------------------------------------------------------
-std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
+Alphabet ConsoleTeacher::askAlphabet() {
 		
-	std::unique_ptr<Alphabet> alphabet(new Alphabet);
+	Alphabet alphabet;
 	String input = "NULL";
 	
 	while (input != "end") {
@@ -57,11 +57,11 @@ std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 		}
 		else {
 			inputRecorder.push(input);
-			alphabet->addSymbol(input.at(0));
+			alphabet.addSymbol(input.at(0));
 		}
 	}
 	
-	std::cout << "\n" + alphabet->toString() + "\n" << std::endl;
+	std::cout << "\n" + alphabet.toString() + "\n" << std::endl;
 	
 	return alphabet;
 }

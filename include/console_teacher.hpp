@@ -15,7 +15,7 @@ public:
 	bool askMembership(String query);
 	bool makeConjecture(Dfa &dfa);
 	
-	std::unique_ptr<Alphabet> askAlphabet();
+	Alphabet askAlphabet();
 	String getCounterExample();
 
 private:

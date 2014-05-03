@@ -15,7 +15,7 @@ class Teacher {
 public:
 	virtual ~Teacher(){};
 	virtual bool askMembership(String query) = 0;
-	virtual std::unique_ptr<Alphabet> askAlphabet() = 0;
+	virtual Alphabet askAlphabet() = 0;
 	virtual bool makeConjecture(Dfa &dfa) = 0;
 	virtual String getCounterExample() = 0;
 };

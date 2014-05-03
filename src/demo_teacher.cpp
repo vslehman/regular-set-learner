@@ -67,9 +67,9 @@ bool DemoTeacher::askMembership(String query) {
 //==============================================================================
 // std::unique_ptr<Alphabet> DemoTeacher::askAlphabet()
 //------------------------------------------------------------------------------
-std::unique_ptr<Alphabet> DemoTeacher::askAlphabet() {
+Alphabet DemoTeacher::askAlphabet() {
 	
-	std::unique_ptr<Alphabet> alphabet(new Alphabet);
+	Alphabet alphabet;
 	String input = "NULL";
 
 	while (input != "end") {
@@ -83,11 +83,11 @@ std::unique_ptr<Alphabet> DemoTeacher::askAlphabet() {
 			std::cout << "Please enter only one symbol at a time.\n";
 		}
 		else {
-			alphabet->addSymbol(input.at(0));
+			alphabet.addSymbol(input.at(0));
 		}
 	}
 	
-	std::cout << "\n" + alphabet->toString() + "\n" << std::endl;
+	std::cout << "\n" + alphabet.toString() + "\n" << std::endl;
 	
 	return alphabet;
 }

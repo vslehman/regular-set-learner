@@ -35,7 +35,7 @@ private:
 	void printCounterExamplePrompt();
 	void printMembershipPrompt(String query);
 	
-	std::unique_ptr<Alphabet> alphabet;
+	Alphabet alphabet;
 	ObservationTable observeTable;
 };
 

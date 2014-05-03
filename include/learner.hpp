@@ -27,6 +27,14 @@ private:
 	void extendT(Teacher &teacher);
 	
 private:
+	void askAlphabet(Teacher &teacher);
+	bool makeConjecture(Teacher &teacher);
+	void makeMembershipQuery(String s, String e, String query, Teacher &teacher);
+	
+	void printAlphabetPrompt();
+	void printCounterExamplePrompt();
+	void printMembershipPrompt(String query);
+	
 	std::unique_ptr<Alphabet> alphabet;
 	ObservationTable observeTable;
 };

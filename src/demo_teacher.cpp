@@ -46,8 +46,6 @@ bool DemoTeacher::askMembership(String query) {
 	
 	while (true) {
 		
-		printMembershipPrompt(query);
-		
 		input = getResponse();
 		std::cout << input << std::endl;
 		
@@ -70,8 +68,6 @@ bool DemoTeacher::askMembership(String query) {
 // std::unique_ptr<Alphabet> DemoTeacher::askAlphabet()
 //------------------------------------------------------------------------------
 std::unique_ptr<Alphabet> DemoTeacher::askAlphabet() {
-	std::cout << "Please enter each symbol in the alphabet followed by the return key\n";
-	std::cout << "Type 'end' followed by the return key to finalize the alphabet\n";
 	
 	std::unique_ptr<Alphabet> alphabet(new Alphabet);
 	String input = "NULL";
@@ -99,11 +95,7 @@ std::unique_ptr<Alphabet> DemoTeacher::askAlphabet() {
 //==============================================================================
 // bool DemoTeacher::makeConjecture()
 //------------------------------------------------------------------------------
-bool DemoTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
-	std::cout << dfa->toString() << std::endl;
-	
-	std::cout << "Is this a correct acceptor for the language?" << std::endl;
-	std::cout << "(Y)es or (N)o?\n";
+bool DemoTeacher::makeConjecture(Dfa &dfa) {
 	
 	String input = "NULL";
 	
@@ -130,29 +122,12 @@ bool DemoTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
 // String DemoTeacher::getCounterExample()
 //------------------------------------------------------------------------------
 String DemoTeacher::getCounterExample() {
-	std::cout << "Please provide a counter-example:";
-	std::cout << "> ";
 	
 	String input;
 	input = getResponse();
 	std::cout << input << std::endl;
 	
 	return input;
-}
-
-//==============================================================================
-// void DemoTeacher::printMembershipPrompt()
-//------------------------------------------------------------------------------
-void DemoTeacher::printMembershipPrompt(String query) {
-	
-	// Print unicode epsilon
-	if (query == EMPTY_STRING) {
-		query = EPSILON_STRING;
-	}
-	
-	std::cout << "\nIs " + query + " a member of the unknown regular set?\n";
-	std::cout << "(Y)es or (N)o?\n";
-	std::cout << "> ";
 }
 
 //==============================================================================

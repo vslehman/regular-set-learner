@@ -21,23 +21,23 @@ Learner::Learner() {
 #include <iostream>
 void Learner::start(Teacher &teacher) {
 	
-	alphabet = teacher.askAlphabet();
+	askAlphabet(teacher);
 	
 	// Initialize S and E to {epsilon}.
 	init();
 	
 	// Ask membership query for epsilon
-	observeTable.addEntry(EMPTY_STRING, EMPTY_STRING, teacher.askMembership(EMPTY_STRING));
+	makeMembershipQuery(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, teacher);
 
 	// Ask membership queries for each a in A
 	for (char symbol : alphabet->getSymbols()) {
 	
 		if (symbol == EMPTY_CHAR) {
-			observeTable.addEntry(EMPTY_STRING, EMPTY_STRING, teacher.askMembership(EMPTY_STRING));
+			makeMembershipQuery(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, teacher);
 		}
 		else {
 			String symbolString(1, symbol);
-			observeTable.addEntry(symbolString, EMPTY_STRING, teacher.askMembership(symbolString));
+			makeMembershipQuery(symbolString, EMPTY_STRING, symbolString, teacher);
 		}
 	}
 	
@@ -65,10 +65,11 @@ void Learner::start(Teacher &teacher) {
 		outputDfa();
 		
 		// The learner was correct
-		if (teacher.makeConjecture(observeTable.getDfaRepresentation(*alphabet))) {
+		if (makeConjecture(teacher)) {
 			conjectureIsIncorrect = false;
 		} // The learner was incorrect
 		else {
+			printCounterExamplePrompt();
 			String t = teacher.getCounterExample();
 			
 			// Add t and all its prefixes to S
@@ -161,7 +162,7 @@ void Learner::extendT(Teacher& teacher) {
 				observeTable.addEntry(s, e, observeTable.isMember(query));
 			} // Need to ask the teacher
 			else {
-				observeTable.addEntry(s, e, teacher.askMembership(query));
+				makeMembershipQuery(s, e, query, teacher);
 			}
 		}
 	}
@@ -178,9 +179,70 @@ void Learner::extendT(Teacher& teacher) {
 					observeTable.addEntry(query, e, observeTable.isMember(query + e));
 				} // Need to ask the teacher
 				else {
-					observeTable.addEntry(query, e, teacher.askMembership(query + e));
+					makeMembershipQuery(query, e, query + e, teacher);
 				}
 			}
 		}
 	}
+}
+
+//==============================================================================
+// void Learner::askAlphabet()
+//------------------------------------------------------------------------------
+void Learner::askAlphabet(Teacher &teacher) {
+	printAlphabetPrompt();
+	alphabet = teacher.askAlphabet();
+}
+
+//==============================================================================
+// bool Learner::makeConjecture()
+//------------------------------------------------------------------------------
+bool Learner::makeConjecture(Teacher &teacher) {
+	std::cout << "Is this a correct acceptor for the language?" << std::endl;
+	std::unique_ptr<Dfa> dfa = observeTable.getDfaRepresentation(*alphabet);
+	std::cout << dfa->toString() << std::endl;
+	std::cout << "(Y)es or (N)o?\n";
+	
+	bool result = teacher.makeConjecture(*(dfa.get()));
+	
+	return result;
+}
+
+//==============================================================================
+// void Learner::makeMembershipQuery()
+//------------------------------------------------------------------------------
+void Learner::makeMembershipQuery(String s, String e, String query, Teacher &teacher) {
+	printMembershipPrompt(query);
+	observeTable.addEntry(s, e, teacher.askMembership(query));
+}
+
+//==============================================================================
+// void Learner::printAlphabetPrompt()
+//------------------------------------------------------------------------------
+void Learner::printAlphabetPrompt() {
+	std::cout << "Please enter each symbol in the alphabet followed by the return key\n";
+	std::cout << "Type 'end' followed by the return key to finalize the alphabet\n";
+}
+
+//==============================================================================
+// void Learner::printCounterExamplePrompt()
+//------------------------------------------------------------------------------
+void Learner::printCounterExamplePrompt() {
+	std::cout << "Please provide a counter-example:";
+	std::cout << "> ";
+}
+
+//==============================================================================
+// void Learner::printMembershipPrompt()
+//------------------------------------------------------------------------------
+void Learner::printMembershipPrompt(String query) {
+	
+	// Print unicode epsilon
+	if (query == EMPTY_STRING) {
+		query = EPSILON_STRING;
+	}
+	
+	std::cout << "\nIs " + query + " a member of the unknown regular set?\n";
+	std::cout << "(Y)es or (N)o?\n";
+	std::cout << "> ";
 }

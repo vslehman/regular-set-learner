@@ -17,8 +17,6 @@ bool ConsoleTeacher::askMembership(String query) {
 	
 	while (true) {
 		
-		printMembershipPrompt(query);
-		
 		std::cin >> input;
 		
 		if (isYes(input)) {
@@ -42,9 +40,7 @@ bool ConsoleTeacher::askMembership(String query) {
 // std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet()
 //------------------------------------------------------------------------------
 std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
-	std::cout << "Please enter each symbol in the alphabet followed by the return key\n";
-	std::cout << "Type 'end' followed by the return key to finalize the alphabet\n";
-	
+		
 	std::unique_ptr<Alphabet> alphabet(new Alphabet);
 	String input = "NULL";
 	
@@ -73,11 +69,7 @@ std::unique_ptr<Alphabet> ConsoleTeacher::askAlphabet() {
 //==============================================================================
 // bool ConsoleTeacher::makeConjecture()
 //------------------------------------------------------------------------------
-bool ConsoleTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
-	std::cout << dfa->toString() << std::endl;
-	
-	std::cout << "Is this a correct acceptor for the language?" << std::endl;
-	std::cout << "(Y)es or (N)o?\n";
+bool ConsoleTeacher::makeConjecture(Dfa &dfa) {
 	
 	String input = "NULL";
 	
@@ -105,8 +97,6 @@ bool ConsoleTeacher::makeConjecture(std::unique_ptr<Dfa> dfa) {
 // String ConsoleTeacher::getCounterExample()
 //------------------------------------------------------------------------------
 String ConsoleTeacher::getCounterExample() {
-	std::cout << "Please provide a counter-example:";
-	std::cout << "> ";
 	
 	String input;
 	std::cin >> input;
@@ -114,21 +104,6 @@ String ConsoleTeacher::getCounterExample() {
 	inputRecorder.push(input);
 	
 	return input;
-}
-
-//==============================================================================
-// void ConsoleTeacher::printMembershipPrompt()
-//------------------------------------------------------------------------------
-void ConsoleTeacher::printMembershipPrompt(String query) {
-
-	// Print unicode epsilon
-	if (query == EMPTY_STRING) {
-		query = EPSILON_STRING;
-	}
-	
-	std::cout << "\nIs " + query + " a member of the unknown regular set?\n";
-	std::cout << "(Y)es or (N)o?\n";
-	std::cout << "> ";
 }
 
 //==============================================================================
@@ -177,9 +152,4 @@ void ConsoleTeacher::writeDemoToFile() {
 		
 		outFile.close();
 	}
-	
-	system("dot -Tpdf tmp/tmp.dot -o tmp/tmp.pdf > /dev/null 2>&1");
-	system("open tmp/tmp.pdf");
-
-
 }

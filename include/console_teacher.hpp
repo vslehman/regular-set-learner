@@ -13,14 +13,13 @@
 class ConsoleTeacher : public Teacher {
 public:
 	bool askMembership(String query);
-	bool makeConjecture(std::unique_ptr<Dfa> dfa);
+	bool makeConjecture(Dfa &dfa);
 	
 	std::unique_ptr<Alphabet> askAlphabet();
 	String getCounterExample();
 
 private:
 	void writeDemoToFile();
-	void printMembershipPrompt(String query);
 	bool isYes(String s);
 	bool isNo(String s);
 	

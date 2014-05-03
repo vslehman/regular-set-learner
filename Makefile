@@ -3,6 +3,9 @@ CXXFLAGS=-Wall
 
 INC=include/
 SRC=src/*.cpp
+TESTS_INC=-Itests/include/
+TESTS_SRC=tests/src/*.cpp $(filter-out src/main.cpp, $(wildcard src/*.cpp))
+TESTS_TARGET=-o bin/tests.out
 CXXFLAGS=-Wall -g -std=c++11 -I$(INC)
 TARGET=bin/rsl.out
 
@@ -11,7 +14,7 @@ all: test rsl
 
 test:
 	@echo Building tests... 
-	$(CC) $(CXXFLAGS) -Itests/ tests/*.cpp $(filter-out src/main.cpp, $(wildcard src/*.cpp))  -o bin/tests.out
+	$(CC) $(CXXFLAGS) $(TESTS_INC) $(TESTS_SRC) $(TESTS_TARGET) 
 	@echo "...Done"
 	@echo "\nRunning tests..."
 	@./bin/tests.out

@@ -2,30 +2,29 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef DEMO_TEACHER_H
-#define DEMO_TEACHER_H
+#ifndef CONSOLE_TEACHER_HPP
+#define CONSOLE_TEACHER_HPP
 
 #include <queue>
 
-#include "common.h"
-#include "teacher.h"
+#include "common.hpp"
+#include "teacher.hpp"
 
-class DemoTeacher : public Teacher {
+class ConsoleTeacher : public Teacher {
 public:
-	DemoTeacher(String filename, int playbackSpeed);
 	bool askMembership(String query);
 	bool makeConjecture(std::unique_ptr<Dfa> dfa);
 	
 	std::unique_ptr<Alphabet> askAlphabet();
 	String getCounterExample();
-	
+
 private:
+	void writeDemoToFile();
 	void printMembershipPrompt(String query);
-	String getResponse();
 	bool isYes(String s);
 	bool isNo(String s);
-	std::queue<String> responses;
-	int playbackPause;
+	
+	std::queue<String> inputRecorder;
 };
 
 #endif

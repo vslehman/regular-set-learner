@@ -2,16 +2,16 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef OBSERVATION_TABLE_H
-#define OBSERVATION_TABLE_H
+#ifndef OBSERVATION_TABLE_HPP
+#define OBSERVATION_TABLE_HPP
 
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "alphabet.h"
-#include "common.h"
+#include "alphabet.hpp"
+#include "common.hpp"
 
 typedef std::map<std::pair<String, String>, bool>::iterator TableIterator;
 typedef std::pair<String, String> TablePair;

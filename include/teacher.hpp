@@ -2,14 +2,14 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef TEACHER_H
-#define TEACHER_H
+#ifndef TEACHER_HPP
+#define TEACHER_HPP
 
 #include <string>
 
-#include "alphabet.h"
-#include "common.h"
-#include "dfa.h"
+#include "alphabet.hpp"
+#include "common.hpp"
+#include "dfa.hpp"
 
 class Teacher {
 public:

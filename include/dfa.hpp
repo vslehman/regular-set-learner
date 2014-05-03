@@ -2,14 +2,14 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef DFA_H
-#define DFA_H
+#ifndef DFA_HPP
+#define DFA_HPP
 
 #include <map>
 #include <vector>
 #include <string>
 
-#include "common.h"
+#include "common.hpp"
 
 const int NULL_STATE = -1;
 

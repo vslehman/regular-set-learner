@@ -4,8 +4,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include <fstream>
 #include <stdlib.h>
-#include "learner.h"
-#include "common.h"
+
+#include "common.hpp"
+#include "learner.hpp"
 
 //==============================================================================
 // Learner::Learner()

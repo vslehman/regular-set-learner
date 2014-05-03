@@ -1,8 +1,12 @@
-#ifndef TABLE_TEST_H
-#define TABLE_TEST_H
+////////////////////////////////////////////////////////////////////////////////
+// Vince Lehman
+// COMP 4601
+////////////////////////////////////////////////////////////////////////////////
+#ifndef TABLE_TEST_HPP
+#define TABLE_TEST_HPP
 
-#include "test.h"
-#include "observation_table.h"
+#include "observation_table.hpp"
+#include "test.hpp"
 
 class TableTest : public Test {
 	friend class ObservationTable;

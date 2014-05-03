@@ -2,23 +2,23 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef ALPHABET_H
-#define ALPHABET_H
+#ifndef TEST_HPP
+#define TEST_HPP
 
-#include <set>
 #include <string>
 
-#include "common.h"
+class Test;
+typedef bool (*Callback)(void);
 
-class Alphabet {
+class Test {
 public:
-	void addSymbol(char sybmol);
-	const std::set<char> &getSymbols(){return symbols;}
-	
-	String toString();
+	bool test(std::string name, Callback c);
+	bool startTests();
 	
 private:
-	std::set<char> symbols;
+	virtual bool runTests() = 0;
+	int numFailedTests;
+	int numPassedTests;
 };
 
 #endif

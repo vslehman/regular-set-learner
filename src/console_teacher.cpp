@@ -2,10 +2,11 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#include "console_teacher.h"
 #include <fstream>
 #include <iostream>
-#include "common.h"
+
+#include "common.hpp"
+#include "console_teacher.hpp"
 
 //==============================================================================
 // bool ConsoleTeacher::askMembership()

@@ -2,10 +2,11 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#include "observation_table.h"
-#include "dfa.h"
-#include "common.h"
 #include <iostream>
+
+#include "common.hpp"
+#include "dfa.hpp"
+#include "observation_table.hpp"
 
 //==============================================================================
 // bool ObservationTable::isClosed()

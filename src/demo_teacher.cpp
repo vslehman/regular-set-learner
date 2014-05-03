@@ -2,12 +2,13 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#include "demo_teacher.h"
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
-#include "common.h"
+
+#include "common.hpp"
+#include "demo_teacher.hpp"
 
 //==============================================================================
 // bool DemoTeacher::DemoTeacher()

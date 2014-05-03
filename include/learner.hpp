@@ -2,12 +2,12 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef LEARNER_H
-#define LEARNER_H
+#ifndef LEARNER_HPP
+#define LEARNER_HPP
 
-#include "common.h"
-#include "observation_table.h"
-#include "teacher.h"
+#include "common.hpp"
+#include "observation_table.hpp"
+#include "teacher.hpp"
 
 class Alphabet;
 

@@ -2,11 +2,12 @@
 // Vince Lehman
 // COMP 4601
 ////////////////////////////////////////////////////////////////////////////////
-#include "console_teacher.h"
-#include "common.h"
-#include "demo_teacher.h"
-#include "learner.h"
 #include <iostream>
+
+#include "common.hpp"
+#include "console_teacher.hpp"
+#include "demo_teacher.hpp"
+#include "learner.hpp"
 
 //==============================================================================
 // int main()

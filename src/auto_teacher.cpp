@@ -42,14 +42,16 @@ bool AutoTeacher::makeConjecture(Dfa &conjectureDfa) {
 	// Get symmetric difference dfa
 	Dfa symDiffDfa = Dfa::getSymmetricDifference(unknownSetDfa, conjectureDfa, alphabet);
 	
-	lastSymmetricDifferenceDfa = symDiffDfa;
-	
 	// If symmetric difference dfa accepts nothing, accept
 	// Otherwise, reject
 	bool areSameLanguage = symDiffDfa.acceptsNothing();
+	
 	std::cout << areSameLanguage << std::endl;
 	std::cout << "Press enter to continue" << std::endl;
 	std::cin.ignore();
+	
+	lastSymmetricDifferenceDfa = symDiffDfa;
+	
 	return areSameLanguage;
 }
 
